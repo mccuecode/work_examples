@@ -98,7 +98,7 @@ print(texas)
 # In[2]:
 
 
-# WEBSCRAPE Function FOR TRUEAUTOMATION 
+# WEBSCRAPE Function FOR TRUEAUTOMATION -- Each page has specific table, pull data to match our schema  
 def true_auto():
     soup = BeautifulSoup(driver.page_source, "html.parser")
     table_body = soup.find('table', {'id':'propertySearchResults_resultsTable'})
@@ -155,7 +155,7 @@ for a, b, c in testtex:
     driver.find_element_by_xpath('//*[@id="propertySearchOptions_advanced"]').click()
     wait.until(ec.element_to_be_clickable((By.ID, 'header_PropertySearch')))
 
-    # SEARCH ON DIGIT IN RANGE
+    # SEARCH ON ADDRESS DIGIT
     for y in range(9):
         numbersearch = driver.find_element_by_xpath('//*[@id="propertySearchOptions_streetNumber"]')
         numbersearch.send_keys(y)
@@ -173,10 +173,13 @@ for a, b, c in testtex:
             true_auto()
         except:
             continue 
+            
+        #If search is only 1 page, scrape and move to next    
 
         if page_len == 1:
             true_auto()
 
+        # 22 is the limit on how many pages it will show
         if page_len > 1 and page_len < 22:
             wait.until(ec.element_to_be_clickable((By.ID, 'header_PropertySearch')))
             page_total = page_len -1
@@ -215,14 +218,15 @@ for a, b, c in testtex:
         driver.find_element_by_xpath('//*[@id="propertySearchOptions_advanced"]').click()
 
 
-    
+    #turn props into DataFrame for upload
     df = pd.DataFrame(props)
-
+    #eliminate duplicates
     df2 = df.drop_duplicates(subset=['treasacct'], keep='last')
 
     
     
     time.sleep(2)
+    #Python SQL to create new table in database
     cur.execute('''CREATE TABLE {} LIKE AA_scrapeDBtemplate'''.format(dbname))
     
     time.sleep(2)
