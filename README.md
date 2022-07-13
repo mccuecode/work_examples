@@ -1,6 +1,7 @@
 # Pioneer_Git
 
-Example code of webscraping several Texas counties at one time using Python, SQL and selenium to manipulate search engines
+Example codes of python, SQL and webscraping algorythms. 
+
 
 In typical webscraping the python extension, REQUESTS, can be used to do most work.  Texas has javascript based search so an alternative method needed to be used.  
 
