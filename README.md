@@ -1,4 +1,4 @@
-# Work Examples
+# McCueCode Examples
 
 Example codes of python, SQL and webscraping algorythms. 
 
